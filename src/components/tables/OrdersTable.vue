@@ -10,8 +10,8 @@
     >
       <template v-slot:top>
         <div class="flex justify-between flex-center" style="width: 100%">
-          <h6 class="q-ma-none">Коммерческие предложения</h6>
-          <q-btn :to="'/new-agreement/create?partner=' + $route.params.partnerId" size="sm" color="primary" :icon="icons.mdiPencil" label="новое предложение" />
+          <h6 class="q-ma-none">Заказы</h6>
+          <q-btn :to="'/new-order/create'" title="Создать заказ, не опираясь на коммерческое предложение" size="sm" color="primary" :icon="icons.mdiPencil" label="новый заказ" />
         </div>
       </template>
       <template v-slot:body="props">
@@ -32,34 +32,24 @@
             {{ props.row.validTo }}
           </q-td>
 
-          <q-td key="status" :props="props">
-            {{ props.row.status }}
+          <q-td key="percentOfPayment" :props="props">
+            {{ props.row.percentOfPayment }}
+          </q-td>
+
+          <q-td key="percentOfShipment" :props="props">
+            {{ props.row.percentOfShipment }}
+          </q-td>
+
+          <q-td key="amount" :props="props">
+            {{ props.row.amount }}
+          </q-td>
+
+          <q-td key="currentState" :props="props">
+            {{ props.row.currentState }}
           </q-td>
 
           <q-td key="actions" :props="props">
-            <q-btn-dropdown class="q-mr-sm" size="sm" color="deep-orange" label="Изменить статус">
-              <q-list>
-                <q-item clickable v-close-popup @click="approve(props.row.businessProposalId)">
-                  <q-item-section>
-                    <q-item-label title="Утвердить отпраленное коммерческое предложение.">Утвердить</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-                <q-item clickable v-close-popup @click="deny(props.row.businessProposalId)">
-                  <q-item-section>
-                    <q-item-label title="Отклоняет коммерческое предложние, отправленное на утверждение.">Отклонить</q-item-label>
-                  </q-item-section>
-                </q-item>
-
-                <q-item clickable v-close-popup @click="cancel(props.row.businessProposalId)">
-                  <q-item-section>
-                    <q-item-label title="Аннулирует действующее коммерческое предложение.">Аннулировать</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-btn-dropdown>
-            <q-btn title="Отправить на утверждение контактному лицу партнера коммерческое предложение о реализации товаров или услуг." color="primary" class="q-mr-sm" size="sm" label="Отправить на утверждение" :loading="loading" />
-            <q-btn :to="'/business-proposal/' + props.row.businessProposalId" color="secondary" size="sm" label="Просмотр" :loading="loading" />
+            <q-btn :to="'/new-order/create'" color="secondary" size="sm" label="Просмотр" :loading="loading" />
           </q-td>
         </q-tr>
       </template>
@@ -98,7 +88,10 @@ export default {
         { name: 'from', label: 'От', field: 'from' },
         { name: 'validFrom', label: 'Действут с', field: 'validFrom' },
         { name: 'validTo', label: 'Действует по', field: 'validTo' },
-        { name: 'status', label: 'Статус', field: 'status' },
+        { name: 'percentOfPayment', label: '% оплаты', field: 'percentOfPayment' },
+        { name: 'percentOfShipment', label: '% доставки', field: 'percentOfShipment' },
+        { name: 'amount', label: 'Сумма', field: 'amount' },
+        { name: 'currentState', label: 'Статус', field: 'currentState' },
         { name: 'actions', label: 'Действия', field: 'actions' }
       ]
     }

@@ -59,6 +59,7 @@
               </q-list>
             </q-btn-dropdown>
             <q-btn title="Отправить на утверждение контактному лицу партнера коммерческое предложение о реализации товаров или услуг." color="primary" class="q-mr-sm" size="sm" label="Отправить на утверждение" :loading="loading" />
+            <q-btn :to="'/new-order/create?businessProposal=' + props.row.businessProposalId" title="Создать заказ на основании коммерческого предложения" class="q-mr-sm" color="purple" size="sm" label="Создать заказ" :loading="loading" />
             <q-btn :to="'/business-proposal/' + props.row.businessProposalId" color="secondary" size="sm" label="Просмотр" :loading="loading" />
           </q-td>
         </q-tr>
