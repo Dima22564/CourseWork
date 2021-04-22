@@ -189,7 +189,7 @@ const linksData = [
     children: [
       {
         title: 'Соглашения с клиентами',
-        link: 'https://quasar.dev'
+        link: '/marketing/agreements/all'
       },
       {
         title: 'Клиенты',
@@ -198,6 +198,14 @@ const linksData = [
       {
         title: 'Создать сделку с клиентом',
         link: 'https://quasar.dev'
+      },
+      {
+        title: 'Коммерческие предложения',
+        link: '/marketing/business-proposal/all'
+      },
+      {
+        title: 'Заказы клиентов',
+        link: '/marketing/orders/all'
       }
     ]
   },

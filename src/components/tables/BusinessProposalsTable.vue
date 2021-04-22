@@ -11,7 +11,22 @@
       <template v-slot:top>
         <div class="flex justify-between flex-center" style="width: 100%">
           <h6 class="q-ma-none">Коммерческие предложения</h6>
-          <q-btn :to="'/new-agreement/create?partner=' + $route.params.partnerId" size="sm" color="primary" :icon="icons.mdiPencil" label="новое предложение" />
+          <q-btn
+            v-if="$route.params.partnerId"
+            :to="'/new-agreement/create?partner=' + $route.params.partnerId"
+            size="sm"
+            color="primary"
+            :icon="icons.mdiPencil"
+            label="новое предложение"
+          />
+          <q-btn
+            v-else
+            :to="'/new-agreement/create'"
+            size="sm"
+            color="primary"
+            :icon="icons.mdiPencil"
+            label="новое предложение"
+          />
         </div>
       </template>
       <template v-slot:body="props">
@@ -22,6 +37,10 @@
 
           <q-td key="from" :props="props">
             {{ props.row.from }}
+          </q-td>
+
+          <q-td key="company" :props="props">
+            {{ props.row.company }}
           </q-td>
 
           <q-td key="validFrom" :props="props">
@@ -58,9 +77,29 @@
                 </q-item>
               </q-list>
             </q-btn-dropdown>
-            <q-btn title="Отправить на утверждение контактному лицу партнера коммерческое предложение о реализации товаров или услуг." color="primary" class="q-mr-sm" size="sm" label="Отправить на утверждение" :loading="loading" />
-            <q-btn :to="'/new-order/create?businessProposal=' + props.row.businessProposalId" title="Создать заказ на основании коммерческого предложения" class="q-mr-sm" color="purple" size="sm" label="Создать заказ" :loading="loading" />
-            <q-btn :to="'/business-proposal/' + props.row.businessProposalId" color="secondary" size="sm" label="Просмотр" :loading="loading" />
+            <q-btn
+              :to="'/new-order/create?businessProposal=' + props.row.businessProposalId"
+              class="q-mr-sm"
+              color="primary"
+              size="sm"
+              label="Создать заказ"
+              :loading="loading"
+            >
+              <q-tooltip>
+                Создать заказ на основании коммерческого предложения.
+              </q-tooltip>
+            </q-btn>
+            <q-btn class="q-mr-sm" :to="'/marketing/business-proposal/view/' + props.row.businessProposalId" color="secondary" size="sm" label="Просмотр" :loading="loading" />
+            <q-btn
+              color="purple"
+              size="sm"
+              :icon="icons.mdiSend"
+              :loading="loading"
+            >
+              <q-tooltip>
+                Отправить на утверждение контактному лицу партнера коммерческое предложение о реализации товаров или услуг.
+              </q-tooltip>
+            </q-btn>
           </q-td>
         </q-tr>
       </template>
@@ -97,6 +136,7 @@ export default {
       columns: [
         { name: 'number', label: '#', align: 'left', field: 'number' },
         { name: 'from', label: 'От', field: 'from' },
+        { name: 'company', label: 'Компания', field: 'company' },
         { name: 'validFrom', label: 'Действут с', field: 'validFrom' },
         { name: 'validTo', label: 'Действует по', field: 'validTo' },
         { name: 'status', label: 'Статус', field: 'status' },

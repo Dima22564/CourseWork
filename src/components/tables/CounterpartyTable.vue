@@ -108,7 +108,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: () => this.data1
     },
     isCreation: {
       type: Boolean,
@@ -119,7 +119,7 @@ export default {
     return {
       loading: false,
       createCounterparty: false,
-      data: [
+      data1: [
         { workName: 'JJJJddfdf', fullName: 'RUB', tin: '30101810300000000747', crtr: 18515265 },
         { workName: 'JJJJddfdf', fullName: 'RUB', tin: '30101810300000000747', crtr: 18515265 }
       ],

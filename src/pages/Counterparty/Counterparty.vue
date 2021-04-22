@@ -1,5 +1,6 @@
 <template>
   <q-page padding>
+    <h5 class="q-ma-none q-mb-md">Company name (Контрагент)</h5>
     <q-card>
       <q-tabs
         v-model="tab"

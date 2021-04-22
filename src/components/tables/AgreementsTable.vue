@@ -11,7 +11,26 @@
       <template v-slot:top>
         <div class="flex justify-between flex-center" style="width: 100%">
           <h6 class="q-ma-none">Соглашения</h6>
-          <q-btn :to="'/new-agreement/create?partner=' + $route.params.partnerId" size="sm" color="primary" :icon="icons.mdiPencil" label="создать новое соглашение" />
+          <q-btn
+            v-if="$route.params.partnerId"
+            :to="'/new-agreement/create?partner=' + $route.params.partnerId"
+            size="sm"
+            color="primary"
+            :icon="icons.mdiPencil"
+            label="создать новое соглашение"
+          >
+            <q-tooltip>
+              Создать новое соглашение для данного партнера
+            </q-tooltip>
+          </q-btn>
+          <q-btn
+            v-else
+            :to="'/new-agreement/create'"
+            size="sm"
+            color="primary"
+            :icon="icons.mdiPencil"
+            label="создать новое соглашение"
+          />
         </div>
       </template>
       <template v-slot:body="props">
@@ -66,8 +85,33 @@
                 </q-item>
               </q-list>
             </q-btn-dropdown>
-            <q-btn :to="'/new-agreement/create?partner=' + $route.params.partnerId + '&oldAgreement=' + props.row.agreementId" title="Создать новое соглашение на основании данного" color="primary" class="q-mr-sm" size="sm" label="Создать" :loading="loading" />
-            <q-btn :to="'/agreement/' + props.row.agreementId" color="secondary" size="sm" label="Просмотр" :loading="loading" />
+            <q-btn
+              :to="'/new-agreement/create?oldAgreement=' + props.row.agreementId"
+              color="primary"
+              class="q-mr-sm"
+              size="sm"
+              label="Создать"
+              :loading="loading"
+            >
+              <q-tooltip>
+                Создать новое соглашение на основании данного
+              </q-tooltip>
+            </q-btn>
+            <q-btn :to="'/agreement/' + props.row.agreementId" class="q-mr-sm" color="secondary" size="sm" :icon="icons.mdiMagnify" :loading="loading" />
+            <q-btn class="q-mr-sm" color="info" size="sm" :icon="icons.mdiAccountSearch" :loading="loading">
+              <q-tooltip>Просмотр ответственного лица.</q-tooltip>
+            </q-btn>
+            <q-btn
+              :to="'/agreement/' + props.row.agreementId"
+              color="purple"
+              size="sm"
+              :icon="icons.mdiSend"
+              :loading="loading"
+            >
+              <q-tooltip>
+                Отправить соглашение на утверждение партнеру.
+              </q-tooltip>
+            </q-btn>
           </q-td>
         </q-tr>
       </template>
