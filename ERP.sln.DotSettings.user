@@ -1,0 +1,11 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=197d6a7b_002Dd130_002D4ad7_002D930c_002D9fe823a3b0aa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CurrencyTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FF02AB0C-9C0D-4F81-A652-0DD4C3914334::.NETCoreApp,Version=v3.1::ERP.Test.Domain.Models.CurrencyTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FF02AB0C-9C0D-4F81-A652-0DD4C3914334::.NETCoreApp,Version=v3.1::ERP.Test.Domain.Models.CompanyTest.CompanyWithSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FF02AB0C-9C0D-4F81-A652-0DD4C3914334::.NETCoreApp,Version=v3.1::ERP.Test.Domain.Models.CompanyTest.AttachAddressToCompany&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FF02AB0C-9C0D-4F81-A652-0DD4C3914334::.NETCoreApp,Version=v3.1::ERP.Test.Domain.Models.CompanyTest.AttachContactsToCompany&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FF02AB0C-9C0D-4F81-A652-0DD4C3914334::.NETCoreApp,Version=v3.1::ERP.Test.Domain.Models.CompanyTest.AttachInfoToCompany&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::FF02AB0C-9C0D-4F81-A652-0DD4C3914334::.NETCoreApp,Version=v3.1::ERP.Test.Domain.Models.CompanyTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

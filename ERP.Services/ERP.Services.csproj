@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ERP.Data\ERP.Data.csproj" />
+      <ProjectReference Include="..\ERP.Domain.Core\ERP.Domain.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Builders" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="10.1.1" />
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.14" />
+    </ItemGroup>
+
+</Project>

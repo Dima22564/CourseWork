@@ -1,0 +1,14 @@
+﻿.idea
+.vs
+ERP.Data/bin
+ERP.Data/obj
+ERP.Domain.Core/bin
+ERP.Domain.Core/obj
+ERP.IoC/bin
+ERP.IoC/obj
+ERP.Services/bin
+ERP.Services/obj
+ERP.Test/bin
+ERP.Test/obj
+ERP.WebApi/obj
+ERP.WebApi/bin
