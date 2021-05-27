@@ -97,7 +97,9 @@
                 Создать новое соглашение на основании данного
               </q-tooltip>
             </q-btn>
-            <q-btn :to="'/agreement/' + props.row.agreementId" class="q-mr-sm" color="secondary" size="sm" :icon="icons.mdiMagnify" :loading="loading" />
+            <q-btn :to="'/agreement/' + props.row.agreementId" class="q-mr-sm" color="secondary" size="sm" :icon="icons.mdiMagnify" :loading="loading">
+              <q-tooltip>Просмотр соглашения</q-tooltip>
+            </q-btn>
             <q-btn class="q-mr-sm" color="info" size="sm" :icon="icons.mdiAccountSearch" :loading="loading">
               <q-tooltip>Просмотр ответственного лица.</q-tooltip>
             </q-btn>
@@ -109,7 +111,7 @@
               :loading="loading"
             >
               <q-tooltip>
-                Отправить соглашение на утверждение партнеру.
+                Отправить соглашение на утверждение партнеру (соглашение будет отправлено всем контактным лицам партнера).
               </q-tooltip>
             </q-btn>
           </q-td>

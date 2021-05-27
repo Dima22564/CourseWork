@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <business-proposals-table :data="businessProposals" />
+    <business-proposals-table :loading="loading" :data="businessProposals" />
   </q-page>
 </template>
 
@@ -11,7 +11,25 @@ export default {
   components: { BusinessProposalsTable },
   data: () => {
     return {
-      businessProposals: [{}]
+      loading: false
+    }
+  },
+  computed: {
+    businessProposals () {
+      return this.$store.state.businessProposal.businessProposals
+    }
+  },
+  async mounted () {
+    this.loading = true
+    try {
+      await this.$store.dispatch('businessProposal/fetchAll')
+    } catch (e) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Что-то пошло не так( Не удалось загрузить данные.'
+      })
+    } finally {
+      this.loading = false
     }
   }
 }

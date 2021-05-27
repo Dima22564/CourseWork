@@ -1,7 +1,7 @@
 <template>
-  <q-page padding>
+  <q-page padding v-if="partner !== null">
     <div class="flex justify-between flex-center q-mb-md">
-      <h4 class="q-ma-none q-mb-md">{{ partner.fullName }}</h4>
+      <h4 class="q-ma-none q-mb-md">{{ partner.name.fullName }}</h4>
       <div class="q-ml-auto">
         <q-btn
           @click="createBusinessProposalPopup = true"
@@ -86,19 +86,20 @@ export default {
       bankAccounts: [],
       createBusinessProposalPopup: false,
       loading: false,
-      partner: {
-        fullName: 'Some loooooong company name',
-        workName: 'WorkName',
-        phone: 124866532,
-        email: 'Eamil@text.com',
-        legalAddress: 'Address',
-        physicalAddress: 'Address 2',
-        contactPeople: [],
-        counterparties: [],
-        agreements: [{}],
-        businessProposals: [{}],
-        orders: [{}]
+      partner: null
+    }
+  },
+  async mounted () {
+    try {
+      const res = await this.$store.dispatch('partner/getById', this.$route.params.partnerId)
+      if (res.status === 200) {
+        this.partner = res.data
       }
+    } catch (e) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Не удалось загрузить данные'
+      })
     }
   }
 }

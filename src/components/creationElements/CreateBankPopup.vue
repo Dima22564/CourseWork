@@ -1,10 +1,11 @@
 <template>
-  <div class="q-pa-lg" style="min-width: 500px">
+  <div class="q-pa-lg" style="width: 500px">
 
     <q-form
       @submit="onSubmit"
       @reset="onReset"
       class="q-gutter-md"
+      ref="form"
     >
       <q-input
         filled
@@ -70,11 +71,21 @@
         ]"
       />
 
-      <q-select dense filled v-model="country" hint="Страна" :options="countries" label="Страна" />
+      <q-select
+        options-selected-class="text-deep-orange"
+        option-value="code"
+        option-label="name"
+        dense
+        filled
+        v-model="country"
+        hint="Страна"
+        :options="countries"
+        label="Страна"
+      />
 
       <div class="flex justify-end">
-        <q-btn label="Добавить" type="submit" color="primary"/>
-        <q-btn label="Сбросить" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn :loading="loading" label="Добавить" type="submit" color="primary"/>
+        <q-btn :loading="loading" label="Сбросить" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
 
@@ -85,27 +96,67 @@
 export default {
   data: () => {
     return {
-      name: '',
-      tin: '',
-      bic: '',
-      address: '',
-      country: '',
-      corrAccount: '',
-      city: '',
-      countries: ['Россия']
+      name: null,
+      tin: null,
+      bic: null,
+      address: null,
+      country: null,
+      corrAccount: null,
+      city: null,
+      loading: false
+    }
+  },
+  created () {
+    if (this.$store.state.country.countries.length === 0) {
+      this.$store.dispatch('country/fetchAll')
+    }
+  },
+  computed: {
+    countries () {
+      return this.$store.state.country.countries
     }
   },
   methods: {
-    onSubmit () {
+    async onSubmit () {
+      const form = new FormData()
+      form.append('Name', this.name)
+      form.append('Bic', this.bic)
+      form.append('Tin', this.tin)
+      form.append('City', this.city)
+      form.append('CorrAccount', this.corrAccount)
+      form.append('Address', this.address)
+      form.append('CountryCode', this.country.code)
+
+      this.loading = true
+      try {
+        const result = await this.$store.dispatch('bank/create', form)
+        if (result.status === 201) {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Банк добавлен успешно'
+          })
+        }
+        this.onReset()
+      } catch (e) {
+        console.log(e.response)
+        this.$q.notify({
+          type: 'negative',
+          message: e.response.data.message
+        })
+      } finally {
+        this.loading = false
+      }
     },
     onReset () {
-      this.name = ''
-      this.tin = ''
-      this.bic = ''
-      this.address = ''
-      this.country = ''
-      this.city = ''
-      this.corrAccount = ''
+      this.name = null
+      this.tin = null
+      this.bic = null
+      this.address = null
+      this.country = null
+      this.city = null
+      this.corrAccount = null
+
+      this.$refs.form.resetValidation()
     }
   }
 }

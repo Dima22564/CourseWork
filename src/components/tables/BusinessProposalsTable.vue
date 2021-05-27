@@ -13,7 +13,7 @@
           <h6 class="q-ma-none">Коммерческие предложения</h6>
           <q-btn
             v-if="$route.params.partnerId"
-            :to="'/new-agreement/create?partner=' + $route.params.partnerId"
+            :to="'/new-business-proposal/create?partner=' + $route.params.partnerId"
             size="sm"
             color="primary"
             :icon="icons.mdiPencil"
@@ -21,7 +21,7 @@
           />
           <q-btn
             v-else
-            :to="'/new-agreement/create'"
+            to="/new-business-proposal/"
             size="sm"
             color="primary"
             :icon="icons.mdiPencil"
@@ -36,19 +36,19 @@
           </q-td>
 
           <q-td key="from" :props="props">
-            {{ props.row.from }}
+            {{ dateFormat(props.row.from) }}
           </q-td>
 
           <q-td key="company" :props="props">
-            {{ props.row.company }}
+            {{ props.row.company.name.workName }}
           </q-td>
 
           <q-td key="validFrom" :props="props">
-            {{ props.row.validFrom }}
+            {{ dateFormat(props.row.validFrom) }}
           </q-td>
 
           <q-td key="validTo" :props="props">
-            {{ props.row.validTo }}
+            {{ dateFormat(props.row.validTo) }}
           </q-td>
 
           <q-td key="status" :props="props">
@@ -56,21 +56,21 @@
           </q-td>
 
           <q-td key="actions" :props="props">
-            <q-btn-dropdown class="q-mr-sm" size="sm" color="deep-orange" label="Изменить статус">
+            <q-btn-dropdown v-if="props.row.status !== 'NotValid' && props.row.status !== 'Rejected'" class="q-mr-sm" size="sm" color="deep-orange" label="Изменить статус">
               <q-list>
-                <q-item clickable v-close-popup @click="approve(props.row.businessProposalId)">
+                <q-item clickable v-close-popup @click="changeStatus({ number: props.row.number, status: 'approve' })">
                   <q-item-section>
                     <q-item-label title="Утвердить отпраленное коммерческое предложение.">Утвердить</q-item-label>
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-close-popup @click="deny(props.row.businessProposalId)">
+                <q-item clickable v-close-popup @click="changeStatus({ number: props.row.number, status: 'reject' })">
                   <q-item-section>
                     <q-item-label title="Отклоняет коммерческое предложние, отправленное на утверждение.">Отклонить</q-item-label>
                   </q-item-section>
                 </q-item>
 
-                <q-item clickable v-close-popup @click="cancel(props.row.businessProposalId)">
+                <q-item clickable v-close-popup @click="changeStatus({ number: props.row.number, status: 'invalidate' })">
                   <q-item-section>
                     <q-item-label title="Аннулирует действующее коммерческое предложение.">Аннулировать</q-item-label>
                   </q-item-section>
@@ -78,12 +78,13 @@
               </q-list>
             </q-btn-dropdown>
             <q-btn
-              :to="'/new-order/create?businessProposal=' + props.row.businessProposalId"
+              :to="'/new-order/create?businessProposal=' + props.row.number"
               class="q-mr-sm"
               color="primary"
               size="sm"
               label="Создать заказ"
               :loading="loading"
+              v-if="props.row.status === 'Approved' || props.row.status === 'Valid'"
             >
               <q-tooltip>
                 Создать заказ на основании коммерческого предложения.
@@ -95,9 +96,10 @@
               size="sm"
               :icon="icons.mdiSend"
               :loading="loading"
+              v-if="props.row.status === 'NotApproved'"
             >
               <q-tooltip>
-                Отправить на утверждение контактному лицу партнера коммерческое предложение о реализации товаров или услуг.
+                Отправить на утверждение контактному лицу партнера.
               </q-tooltip>
             </q-btn>
           </q-td>
@@ -110,6 +112,7 @@
 
 <script>
 import icons from 'src/mixins/icons'
+import moment from 'moment'
 export default {
   name: 'BusinessProposalsTable',
   mixins: [icons],
@@ -117,21 +120,25 @@ export default {
     data: {
       type: Array,
       default: () => []
+    },
+    loading: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {
-    saveChanges (partnerId) {
+    dateFormat (date) {
+      return moment(date).format('ll')
     },
-    approve (businessProposalId) {
-    },
-    deny (businessProposalId) {
-    },
-    cancel (businessProposalId) {
+    async changeStatus (data) {
+      try {
+        await this.$store.dispatch('businessProposal/changeStatus', data)
+      } catch (e) {
+      }
     }
   },
   data: () => {
     return {
-      loading: false,
       createAgreement: false,
       columns: [
         { name: 'number', label: '#', align: 'left', field: 'number' },

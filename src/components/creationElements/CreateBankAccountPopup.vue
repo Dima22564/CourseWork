@@ -5,6 +5,7 @@
       @submit="onSubmit"
       @reset="onReset"
       class="q-gutter-md"
+      ref="form"
     >
       <q-input
         filled
@@ -39,11 +40,44 @@
         :rules="[ val => val && val.length > 0 || 'Поле обязательно для заполнени']"
       />
 
-      <q-select :disable="loading" option-label="name" option-value="bic" dense filled v-model="form.bankBic" title="Банк, в котором открыт счет" hint="Банк" :options="banks" label="Банк" />
+      <q-select
+        :disable="loading"
+        option-label="name"
+        option-value="bic"
+        dense
+        filled
+        v-model="form.bankBic"
+        title="Банк, в котором открыт счет"
+        hint="Банк"
+        :options="banks"
+        label="Банк"
+      />
 
-      <q-select :disable="loading" option-label="name" option-value="currencyId" dense filled v-model="form.currency" title="Валюта, в которой будет производиться расчет" hint="Валюта" :options="currencies" label="Валюта" />
+      <q-select
+        :disable="loading"
+        option-label="name"
+        option-value="numericCode"
+        dense
+        filled
+        v-model="form.currency"
+        title="Валюта, в которой будет производиться расчет"
+        hint="Валюта"
+        :options="currencies"
+        label="Валюта"
+      />
 
-      <q-select :disable="loading" option-label="name" option-value="counterpartyId" dense filled v-model="form.counterparty" title="Компания, за котрой закреплен данный счет" hint="Компания" :options="counterparties" label="Компания" />
+      <q-select
+        :disable="loading"
+        :option-label="item => item.name.workName"
+        option-value="tin"
+        dense
+        filled
+        v-model="form.counterparty"
+        title="Компания, за котрой закреплен данный счет"
+        hint="Компания"
+        :options="counterparties"
+        label="Компания"
+      />
 
       <div class="flex justify-end">
         <q-btn :loading="loading" :disable="loading" label="Добавить" type="submit" color="primary"/>
@@ -67,19 +101,69 @@ export default {
         currency: null,
         counterparty: null
       },
-      loading: false,
-      currencies: [{ name: 'RUB', currencyId: 404 }],
-      banks: [{ name: 'Bank', bic: '5125658256' }],
-      counterparties: [{ name: 'Company', counterpartyId: 25 }]
+      loading: false
+    }
+  },
+  computed: {
+    banks () {
+      return this.$store.state.bank.banks
+    },
+    currencies () {
+      return this.$store.state.currency.currencies
+    },
+    counterparties () {
+      return this.$store.state.counterparty.counterparties
+    }
+  },
+  async created () {
+    if (this.currencies.length === 0) {
+      await this.$store.dispatch('currency/fetchAll')
+    }
+    if (this.banks.length === 0) {
+      await this.$store.dispatch('bank/fetchAll')
+    }
+    if (this.counterparties.length === 0) {
+      await this.$store.dispatch('counterparty/fetchAll')
+    }
+    if (this.$route.params.tin) {
+      this.form.counterparty = this.counterparties.find(x => x.tin === Number(this.$route.params.tin))
     }
   },
   methods: {
-    onSubmit () {
+    async onSubmit () {
+      const form = new FormData()
+      form.append('AccountOpened', this.form.accountOpened)
+      form.append('Name', this.form.name)
+      form.append('AccountNumber', this.form.accountNumber)
+      form.append('BankBic', this.form.bankBic.bic)
+      form.append('CurrencyCode', this.form.currency.numericCode)
+      form.append('CompanyId', this.form.counterparty.tin)
+      try {
+        const res = await this.$store.dispatch('bankAccount/create', form)
+        if (res.status === 201) {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Банковский аккаунт успешно создан'
+          })
+        }
+        console.log(res)
+      } catch (e) {
+        console.log(e.response)
+        this.$q.notify({
+          type: 'negative',
+          message: e.response.data
+        })
+      }
     },
     onReset () {
       this.form.name = null
       this.form.accountOpened = null
       this.form.accountNumber = null
+      this.form.bankBic = null
+      this.form.currency = null
+      this.form.counterparty = null
+
+      this.$refs.form.resetValidation()
     }
   }
 }

@@ -4,13 +4,14 @@
       @submit="onSubmit"
       @reset="onReset"
       class="q-gutter-md"
+      ref="form"
     >
       <q-input
         filled
         dense
         v-model="name"
         label="Название валюты"
-        hint="Name and surname"
+        hint="Название валюты"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Поле обязательно к заполнению']"
       />
@@ -20,7 +21,7 @@
         dense
         v-model="numericCode"
         label="Введите номер валюты"
-        hint="Name and surname"
+        hint="Введите номер валюты"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Поле обязательно к заполнению']"
       />
@@ -30,7 +31,7 @@
         dense
         v-model="characterCode"
         label="Введите символьный код валюты"
-        hint="Name and surname"
+        hint="Введите символьный код валюты"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Поле обязательно к заполнению']"
       />
@@ -40,7 +41,7 @@
         dense
         v-model="exchangeRate"
         label="Введите обменный курс (к рублю)"
-        hint="Name and surname"
+        hint="Введите обменный курс (к рублю)"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Поле обязательно к заполнению']"
       />
@@ -59,38 +60,46 @@ export default {
   name: 'PageCurrencyAdd',
   data: () => {
     return {
-      name: '',
-      numericCode: '',
-      characterCode: '',
-      exchangeRate: '',
+      name: null,
+      numericCode: null,
+      characterCode: null,
+      exchangeRate: null,
       loading: false
     }
   },
   methods: {
-    onSubmit () {
-      if (!this.loading) {
+    async onSubmit () {
+      const data = new FormData()
+      data.append('Name', this.name)
+      data.append('NumericCode', this.numericCode)
+      data.append('CharacterCode', this.characterCode)
+      data.append('ExchangeRate', this.exchangeRate)
+      this.loading = true
+      try {
+        const result = await this.$store.dispatch('currency/create', data)
+        if (result.status === 201) {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Валюта добавлена успешно'
+          })
+        }
+        this.onReset()
+      } catch (e) {
         this.$q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Submitted'
+          type: 'negative',
+          message: e.response.data
         })
+      } finally {
+        this.loading = false
       }
     },
     onReset () {
-      this.name = ''
-      this.numericCode = ''
-      this.characterCode = ''
-      this.exchangeRate = ''
+      this.name = null
+      this.numericCode = null
+      this.characterCode = null
+      this.exchangeRate = null
 
-      this.loading = true
-
-      this.$q.notify({
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done',
-        message: 'Submitted'
-      })
+      this.$refs.form.resetValidation()
     }
   }
 }

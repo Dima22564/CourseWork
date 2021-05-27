@@ -6,7 +6,7 @@
       :columns="columns"
       row-key="name"
       binary-state-sort
-      :loading="loading"
+      no-data-label="Нет данных"
     >
       <template v-slot:top>
         <div class="flex justify-between flex-center" style="width: 100%">
@@ -18,55 +18,26 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="workName" :props="props">
-            {{ props.row.workName }}
-            <q-popup-edit
-              v-model="props.row.workName"
-              :buttons="true"
-              label-set="Обновить"
-              label-cancel="Отмена"
-            >
-              <q-input v-model="props.row.workName" dense autofocus counter />
-            </q-popup-edit>
+            {{ props.row.name.workName }}
           </q-td>
 
           <q-td key="fullName" :props="props">
-            {{ props.row.fullName }}
-            <q-popup-edit
-              v-model="props.row.fullName"
-              :buttons="true"
-              label-set="Обновить"
-              label-cancel="Отмена"
-            >
-              <q-input v-model="props.row.fullName" dense autofocus />
-            </q-popup-edit>
+            {{ props.row.name.fullName }}
           </q-td>
 
           <q-td key="tin" :props="props">
             {{ props.row.tin }}
-            <q-popup-edit
-              v-model="props.row.tin"
-              :buttons="true"
-              label-set="Обновить"
-              label-cancel="Отмена"
-            >
-              <q-input v-model="props.row.tin" dense autofocus />
-            </q-popup-edit>
           </q-td>
 
           <q-td key="crtr" :props="props">
             {{ props.row.crtr }}
-            <q-popup-edit
-              v-model="props.row.crtr"
-              :buttons="true"
-              label-set="Обновить"
-              label-cancel="Отмена"
-            >
-              <q-input v-model="props.row.crtr" dense autofocus />
-            </q-popup-edit>
+          </q-td>
+
+          <q-td key="createdAt" :props="props">
+            {{ props.row.createdAt }}
           </q-td>
 
           <q-td key="actions" :props="props">
-            <q-btn color="primary" size="sm" label="Сохранить" @click="saveChanges(props.row.tin)" :loading="loading" />
             <q-btn class="q-ml-sm" color="secondary" size="sm" label="Просмотр" @click="loadCounterparty(props.row.tin)" :loading="loading" />
           </q-td>
         </q-tr>
@@ -108,7 +79,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: () => this.data1
+      default: () => []
     },
     isCreation: {
       type: Boolean,
@@ -119,15 +90,12 @@ export default {
     return {
       loading: false,
       createCounterparty: false,
-      data1: [
-        { workName: 'JJJJddfdf', fullName: 'RUB', tin: '30101810300000000747', crtr: 18515265 },
-        { workName: 'JJJJddfdf', fullName: 'RUB', tin: '30101810300000000747', crtr: 18515265 }
-      ],
       columns: [
         { name: 'workName', label: 'Соращенное название', align: 'left', field: 'workName' },
         { name: 'fullName', label: 'Полное название', field: 'fullName' },
         { name: 'tin', label: 'ИНН', field: 'tin' },
         { name: 'crtr', label: 'CRTR', field: 'crtr' },
+        { name: 'createdAt', label: 'Дата создания', field: 'createdAt' },
         { name: 'actions', label: 'Действия', field: 'actions' }
       ]
     }

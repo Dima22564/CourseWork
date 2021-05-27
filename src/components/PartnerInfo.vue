@@ -13,7 +13,8 @@
             :disable="loading"
             dense
             filled
-            v-model="partner.fullName"
+            v-model="partner.name.fullName"
+            readonly
             lazy-rules
             :rules="[val => val !== null && val !== '' || 'Поле обязательно для заполнения']"
             label="Полное название"
@@ -26,7 +27,8 @@
             :disable="loading"
             dense
             filled
-            v-model="partner.workName"
+            readonly
+            v-model="partner.name.workName"
             label="Рабочее название"
             lazy-rules
             :rules="[val => val !== null && val !== '' || 'Поле обязательно для заполнения']"
@@ -41,7 +43,8 @@
             :disable="loading"
             dense
             filled
-            v-model="partner.phone"
+            readonly
+            v-model="partner.contacts.phone"
             label="Рабочий телефон"
             lazy-rules
             :rules="[val => val !== null && val !== '' || 'Поле обязательно для заполнения']"
@@ -54,8 +57,9 @@
             :disable="loading"
             dense
             filled
-            v-model="partner.email"
+            v-model="partner.contacts.email"
             label="Email"
+            readonly
             lazy-rules
             :rules="[val => val !== null && val !== '' || 'Поле обязательно для заполнения']"
           />
@@ -69,8 +73,9 @@
             :disable="loading"
             dense
             filled
-            v-model="partner.legalAddress"
+            v-model="partner.address.legalAddress"
             label="Юридический адресс"
+            readonly
             lazy-rules
             :rules="[val => val !== null && val !== '' || 'Поле обязательно для заполнения']"
           />
@@ -82,18 +87,14 @@
             :disable="loading"
             dense
             filled
-            v-model="partner.physicalAddress"
+            v-model="partner.address.physicalAddress"
             label="Физический адресс"
+            readonly
             lazy-rules
             :rules="[val => val !== null && val !== '' || 'Поле обязательно для заполнения']"
           />
         </q-item-section>
       </q-card-section>
-      <div>
-        <q-card-actions class="flex justify-end">
-          <q-btn type="submit" :loading="loading" color="primary" label="Сохранить" />
-        </q-card-actions>
-      </div>
     </q-card>
   </q-form>
 </template>

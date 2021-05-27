@@ -35,7 +35,10 @@ const routes = [
       { path: '/marketing/agreements/all', component: () => import('pages/Agreement/All') },
       { path: '/human-resources/employees/all', component: () => import('pages/HR/Employees') },
       { path: '/human-resources/employees/create', component: () => import('pages/HR/CreateEmployee') },
-      { path: '/human-resources/employees/view/:employeeId', component: () => import('pages/HR/CreateEmployee') }
+      { path: '/human-resources/employees/view/:employeeId', component: () => import('pages/HR/CreateEmployee') },
+      { path: '/new-business-proposal', component: () => import('pages/BusinessProposal/Create'), name: 'BusinessProposalCreate' },
+      { path: '/store/product/all', component: () => import('pages/Store/Products') },
+      { path: '/marketing/order/create', component: () => import('pages/Order/Create') }
     ]
   },
 

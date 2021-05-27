@@ -11,7 +11,7 @@
       <template v-slot:top>
         <div class="flex justify-between flex-center" style="width: 100%">
           <h6 class="q-ma-none">Заказы</h6>
-          <q-btn :to="'/new-order/create'" size="sm" color="primary" :icon="icons.mdiPencil" label="новый заказ">
+          <q-btn :to="'/marketing/order/create'" size="sm" color="primary" :icon="icons.mdiPencil" label="новый заказ">
             <q-tooltip>Создать заказ, не опираясь на коммерческое предложение</q-tooltip>
           </q-btn>
         </div>

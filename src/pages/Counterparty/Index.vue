@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <CounterpartyTable :data="data" is-creation />
+    <CounterpartyTable :data="counterparties" is-creation />
   </q-page>
 </template>
 
@@ -16,12 +16,23 @@ export default {
   components: {
     CounterpartyTable
   },
+  async created () {
+    try {
+      await this.$store.dispatch('counterparty/fetchAll')
+    } catch (e) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Что-то пошло не так( Не удалось загрузить данные.'
+      })
+    }
+  },
+  computed: {
+    counterparties () {
+      return this.$store.state.counterparty.counterparties
+    }
+  },
   data: () => {
     return {
-      data: [
-        { workName: 'JJJJddfdf', fullName: 'RUB', tin: '30101810300000000747', crtr: 18515265 },
-        { workName: 'JJJJddfdf', fullName: 'RUB', tin: '30101810300000000747', crtr: 18515265 }
-      ]
     }
   }
 }

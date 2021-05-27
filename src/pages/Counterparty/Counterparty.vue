@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <h5 class="q-ma-none q-mb-md">Company name (Контрагент)</h5>
+    <h5 v-if="counterparty !== null" class="q-ma-none q-mb-md">{{ counterparty.name.workName }} (Контрагент)</h5>
     <q-card>
       <q-tabs
         v-model="tab"
@@ -22,7 +22,10 @@
 
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="info">
-          <CounterpartyInfo />
+          <CounterpartyInfo
+            :counterparty="counterparty"
+            v-if="counterparty !== null"
+          />
         </q-tab-panel>
 
         <q-tab-panel name="partners">
@@ -30,11 +33,18 @@
         </q-tab-panel>
 
         <q-tab-panel name="accounts">
-          <BankAccountsTable :data="bankAccounts" :is-creation="false" />
+          <BankAccountsTable
+            v-if="counterparty !== null"
+            :company-name="counterparty.name.workName"
+            :data="bankAccounts.filter(x => x.company.tin === Number($route.params.tin))"
+          />
         </q-tab-panel>
 
         <q-tab-panel name="contacts">
-          <CounterpartyContacts />
+          <CounterpartyContacts
+            :counterparty="counterparty"
+            v-if="counterparty !== null"
+          />
         </q-tab-panel>
 
         <q-tab-panel name="licenses">
@@ -63,14 +73,28 @@ export default {
     return {
       tab: 'info',
       companies: ['Company'],
-      bankAccounts: [],
       loading: false,
-      licenses: []
+      licenses: [],
+      counterparty: null
     }
   },
-  methods: {
-    save () {
-      this.loading = true
+  computed: {
+    bankAccounts () {
+      return this.$store.state.bankAccount.bankAccounts
+    }
+  },
+  async mounted () {
+    try {
+      const res = await this.$store.dispatch('counterparty/getById', this.$route.params.tin)
+      this.counterparty = res.data
+      if (this.bankAccounts.length === 0) {
+        await this.$store.dispatch('bankAccount/fetchAll')
+      }
+    } catch (e) {
+      this.$q.notify({
+        type: 'negative',
+        message: e.response.data
+      })
     }
   }
 }

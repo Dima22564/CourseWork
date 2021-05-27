@@ -50,17 +50,39 @@ import moment from 'moment'
 export default {
   data: () => {
     return {
-      name: '',
-      desc: '',
+      name: null,
+      desc: null,
       includeAt: moment().format('YYYY-MM-DD')
     }
   },
   methods: {
-    onSubmit () {
+    async onSubmit () {
+      try {
+        const form = new FormData()
+        form.append('Name', this.name)
+        form.append('Description', this.desc)
+        form.append('IncludeAt', this.includeAt)
+
+        const result = await this.$store.dispatch('position/create', form)
+
+        if (result.status === 201) {
+          this.$q.notify({
+            type: 'positive',
+            message: 'Должность добавлена успешно'
+          })
+        }
+      } catch (e) {
+        this.$q.notify({
+          type: 'negative',
+          message: e.response.data.message
+        })
+      } finally {
+        this.loading = false
+      }
     },
     onReset () {
-      this.name = ''
-      this.desc = ''
+      this.name = null
+      this.desc = null
       this.includeAt = moment().format('YYYY-MM-DD')
     }
   }

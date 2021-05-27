@@ -15,10 +15,24 @@ export default {
       // /currency/change/code
     }
   },
+  async mounted () {
+    try {
+      await this.$store.dispatch('partner/fetchAll')
+    } catch (e) {
+      this.$q.notify({
+        type: 'negative',
+        message: 'Не удалось загрузить данные'
+      })
+    }
+  },
+  computed: {
+    partners () {
+      return this.$store.state.partner.partners
+    }
+  },
   data: () => {
     return {
-      loading: false,
-      partners: [{}]
+      loading: false
     }
   }
 }

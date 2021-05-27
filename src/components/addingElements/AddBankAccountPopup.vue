@@ -3,8 +3,8 @@
     <q-form @reset="onReset" @submit="onSubmit">
       <q-select
         filled
-        v-model="bankAccounts"
-        :options="options"
+        v-model="accounts"
+        :options="bankAccounts"
         label="Выберите необходимые счета"
         multiple
         emit-value
@@ -44,13 +44,28 @@
 export default {
   data: () => {
     return {
-      bankAccounts: [],
+      accounts: [],
       options: [
         { accountNumber: 111, bankName: 'Bank', accountName: 'account' },
         { accountNumber: 222, bankName: 'Bank', accountName: 'account' },
         { accountNumber: 333, bankName: 'Bank', accountName: 'account' },
         { accountNumber: 2541265412, bankName: 'Bank', accountName: 'account' }
       ]
+    }
+  },
+  computed: {
+    bankAccounts () {
+      return this.$store.state.bankAccount.bankAccounts
+    }
+  },
+  async created () {
+    try {
+      await this.$store.dispatch('bankAccount/fetchAll')
+    } catch (e) {
+      this.$q.notify({
+        type: 'negative',
+        message: e.response.data
+      })
     }
   },
   methods: {

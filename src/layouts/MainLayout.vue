@@ -16,6 +16,9 @@
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
+        <q-btn to="/register" class="q-ml-md" unelevated size="sm" color="purple" label="Зарегистрировать">
+          <q-tooltip>Зарегистрировать нового пользователя</q-tooltip>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -65,7 +68,6 @@ import {
   mdiAbTesting,
   mdiStore,
   mdiTruckDelivery,
-  mdiCart,
   mdiPackageDown,
   mdiBook,
   mdiCurrencyUsd,
@@ -147,37 +149,17 @@ const linksData = [
       {
         title: 'Соглашения с клиентами',
         icon: mdiTextBox,
-        link: '/standart-agreements'
+        link: '/marketing/agreements/all'
       },
       {
         title: 'Коммерческие предложения',
         icon: mdiNoteText,
-        link: '/business-proposal'
+        link: '/marketing/business-proposal/all'
       },
       {
         title: 'Заказы клиентов',
         icon: mdiNotebookMultiple,
-        link: '/client-orders'
-      }
-    ]
-  },
-  {
-    title: 'Закупки',
-    caption: 'Управление закупками',
-    icon: mdiCart,
-    link: 'https://github.com/quasarframework',
-    children: [
-      {
-        title: 'Продажи',
-        caption: 'quasar.dev',
-        icon: mdiAbTesting,
-        link: 'https://quasar.dev'
-      },
-      {
-        title: 'Продажи',
-        caption: 'quasar.dev',
-        icon: mdiAbTesting,
-        link: 'https://quasar.dev'
+        link: '/marketing/orders/all'
       }
     ]
   },
@@ -187,10 +169,7 @@ const linksData = [
     icon: 'chat',
     link: 'https://chat.quasar.dev',
     children: [
-      {
-        title: 'Соглашения с клиентами',
-        link: '/marketing/agreements/all'
-      },
+
       {
         title: 'Клиенты',
         link: 'https://quasar.dev'
@@ -198,14 +177,6 @@ const linksData = [
       {
         title: 'Создать сделку с клиентом',
         link: 'https://quasar.dev'
-      },
-      {
-        title: 'Коммерческие предложения',
-        link: '/marketing/business-proposal/all'
-      },
-      {
-        title: 'Заказы клиентов',
-        link: '/marketing/orders/all'
       }
     ]
   },
@@ -215,16 +186,10 @@ const linksData = [
     icon: mdiStore,
     children: [
       {
-        title: 'Единицы хранения',
-        caption: 'Единицы хранения',
+        title: 'Продукты',
+        caption: 'Продукты',
         icon: mdiAbTesting,
-        link: '/store/storage-units'
-      },
-      {
-        title: 'Виды продуктов',
-        caption: 'Виды продуктов',
-        icon: mdiAbTesting,
-        link: '/store/product-categories'
+        link: '/store/product/all'
       }
     ]
   },

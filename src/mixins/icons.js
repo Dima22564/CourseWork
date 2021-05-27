@@ -7,7 +7,8 @@ import {
   mdiCancel,
   mdiMagnify,
   mdiDelete,
-  mdiAccountSearch
+  mdiAccountSearch,
+  mdiAutorenew
 } from '@quasar/extras/mdi-v5'
 
 export default {
@@ -22,7 +23,8 @@ export default {
         mdiCancel,
         mdiMagnify,
         mdiDelete,
-        mdiAccountSearch
+        mdiAccountSearch,
+        mdiAutorenew
       }
     }
   }
