@@ -6,6 +6,7 @@
         NotValid,
         NotApproved,
         Rejected,
-        Checking
+        Checking,
+        Approved
     }
 }

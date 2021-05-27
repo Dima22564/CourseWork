@@ -10,7 +10,7 @@ namespace ERP.Domain.Core.Models
         public float Price { get; set; }
         public float Amount { get; set; }
         public int PositionNumber { get; set; }
-        public float Sale { get; set; }
+        public float Sale { get; set; } = 0;
 
         public string Action { get; set; }
         public bool Cancelled { get; set; } = false;

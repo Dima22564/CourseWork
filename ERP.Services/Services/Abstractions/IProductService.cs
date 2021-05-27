@@ -1,14 +1,12 @@
-﻿namespace ERP.Services.Services.Abstractions
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using ERP.Domain.Core.Models;
+using ERP.Services.DTO.Creation;
+
+namespace ERP.Services.Services.Abstractions
 {
-    public interface IProductService
+    public interface IProductService : ICreation<Product, ProductCreateDto>
     {
-        public void CreateProduct();
-        public void UpdateProduct();
-
-        public void CreateStorageUnit();
-        public void UpdateStorageUnit();
-
-        public void CreateProductKind();
-        public void UpdateProductKind();
+        public Task<ICollection<Product>> GetAll();
     }
 }

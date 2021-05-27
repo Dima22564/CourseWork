@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ERP.Domain.Core.Models;
 using ERP.Domain.Core.Types;
+using ERP.Services.DTO.Adding;
 using ERP.Services.DTO.Creation;
 using ERP.Services.DTO.Return;
 using ERP.Services.DTO.Types;
@@ -41,6 +42,25 @@ namespace ERP.WebApi.Helpers
                 .ForMember(dest => dest.Contacts, src => src.MapFrom(s => s.Contacts))
                 .ForMember(dest => dest.Address, src => src.MapFrom(s => s.Address));
             CreateMap<PartnerCreateDto, Partner>();
+            
+            CreateMap<BusinessProposal, BusinessProposalToReturnDto>()
+                .ForMember(dest => dest.Company, src => src.MapFrom(s => s.Partner))
+                .ForMember(dest => dest.Status, src => src.MapFrom(s => s.Status.ToString()));
+            CreateMap<BusinessProposalCreateDto, BusinessProposal>();
+            
+            CreateMap<Position, PositionToReturnDto>();
+            CreateMap<PositionCreateDto, Position>();
+            
+            CreateMap<Product, ProductToReturnDto>();
+            CreateMap<ProductCreateDto, Product>();
+            
+            CreateMap<AddBusinessProposalProduct, BusinessProposalProduct>();
+            
+            CreateMap<AgreementWithCustomer, AgreementToReturnDto>()
+                .ForMember(dest => dest.Company, src => src.MapFrom(s => s.Partner))
+                .ForMember(dest => dest.Status, src => src.MapFrom(s => s.Status.ToString()));
+            CreateMap<AgreementCreateDto, AgreementWithCustomer>();
+
         }
     }
 }

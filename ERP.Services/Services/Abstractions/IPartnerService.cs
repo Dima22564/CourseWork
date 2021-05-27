@@ -5,8 +5,10 @@ using ERP.Services.DTO.Creation;
 
 namespace ERP.Services.Services.Abstractions
 {
-    public interface IPartnerService : IFetch<Partner>, ICreation<Partner, PartnerCreateDto>
+    public interface IPartnerService : ICreation<Partner, PartnerCreateDto>
     {
-        public Task<Partner> AddCounterparties(IEnumerable<long> counterpartiesTins, object id);
+        public Partner GetById(object id);
+        public Task<ICollection<Partner>> GetAll();
+        public Task<Partner> AddCounterparties(List<long> counterpartiesTins, object id);
     }
 }

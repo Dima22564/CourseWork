@@ -16,10 +16,9 @@ namespace ERP.Domain.Core.Models
         public string Code { get; set; }
         public string WorkName { get; set; }
         public string FullName { get; set; }
-        public Vat Vat { get; set; }
-        public int StorageUnitId { get; set; }
-        public virtual StorageUnit StorageUnit { get; set; }
-        public virtual ICollection<TypeProduct> TypeProducts { get; set; }
+        public int Vat { get; set; }
+        public float Price { get; set; }
+        public int Quantity{ get; set; }
         public virtual ICollection<ClientOrderProduct> ClientOrderProducts { get; set; }
         public virtual ICollection<BusinessProposalProduct> BusinessProposalProducts { get; set; }
     }

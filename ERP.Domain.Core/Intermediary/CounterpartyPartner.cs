@@ -9,5 +9,9 @@ namespace ERP.Domain.Core.Intermediary
         
         public long PartnerId { get; set; }
         public virtual Partner Partner { get; set; }
+
+        public CounterpartyPartner()
+        {
+        }
     }
 }

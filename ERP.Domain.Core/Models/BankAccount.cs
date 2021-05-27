@@ -11,7 +11,6 @@ namespace ERP.Domain.Core.Models
         public BankAccount()
         {
         }
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long AccountNumber { get; set; }

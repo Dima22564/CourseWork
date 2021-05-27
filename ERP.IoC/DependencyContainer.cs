@@ -2,6 +2,7 @@
 using ERP.Data.Repositories;
 using ERP.Domain.Core.Abstract;
 using ERP.Domain.Core.Models;
+using ERP.Services;
 using ERP.Services.Services;
 using ERP.Services.Services.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,8 +23,12 @@ namespace ERP.IoC
             services.AddTransient<IBankService, BankService>();
             services.AddTransient<ICounterpartyService, CounterpartyService>();
             services.AddTransient<IBankAccountsService, BankAccountService>();
-            services.AddTransient<IPartnerService, IPartnerService>();
-            
+            services.AddTransient<IPartnerService, PartnerService>();
+            services.AddTransient<IBusinessProposalService, BusinessProposalService>();
+            services.AddTransient<IPositionService, PositionService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IAgreementService, AgreementService>();
+             
             // Repositories
             services.AddTransient<IGenericRepository<Employee>, GenericRepository<Employee>>();
             services.AddTransient<IGenericRepository<AgreementWithCustomer>, GenericRepository<AgreementWithCustomer>>();
@@ -41,11 +46,11 @@ namespace ERP.IoC
             services.AddTransient<IGenericRepository<Partner>, GenericRepository<Partner>>();
             services.AddTransient<IGenericRepository<Position>, GenericRepository<Position>>();
             services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
-            services.AddTransient<IGenericRepository<ProductKind>, GenericRepository<ProductKind>>();
-            services.AddTransient<IGenericRepository<StorageUnit>, GenericRepository<StorageUnit>>();
             services.AddTransient<IGenericRepository<Person>, GenericRepository<Person>>();
 
             services.AddTransient<ICounterpartyRepository, CounterpartyRepository>();
+            services.AddTransient<IPartnerRepository, PartnerRepository>();
+            services.AddTransient<IBusinessProposalRepository, BusinessProposalRepository>();
         }
     }
 }

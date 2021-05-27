@@ -18,5 +18,10 @@ namespace ERP.Domain.Core.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
+        public void CalculateAmount()
+        {
+            Amount = Price * Quantity * (100 - Sale) / 100;
+        }
+
     }
 }

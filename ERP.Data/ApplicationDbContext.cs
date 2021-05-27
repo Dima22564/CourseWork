@@ -1,4 +1,5 @@
-﻿using ERP.Domain.Core.Abstract;
+﻿using ERP.Data.ModelBuilderExtensions;
+using ERP.Domain.Core.Abstract;
 using ERP.Domain.Core.Intermediary;
 using ERP.Domain.Core.Models;
 using Microsoft.EntityFrameworkCore;
@@ -30,13 +31,11 @@ namespace ERP.Data
         public virtual DbSet<AlcoholicLicense> AlcoholicLicenses { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<StorageUnit> StorageUnits { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ClientOrder> ClientOrders { get; set; }
         public virtual DbSet<BusinessProposal> BusinessProposals { get; set; }
         public virtual DbSet<BusinessProposalProduct> BusinessProposalProducts { get; set; }
         public virtual DbSet<ClientOrderProduct> ClientOrderProducts { get; set; }
-        public virtual DbSet<ProductKind> ProductKinds { get; set; }
         public virtual DbSet<AgreementWithCustomer> AgreementWithCustomers { get; set; }
         public virtual DbSet<ContactPerson> ContactPeople { get; set; }
         
@@ -44,7 +43,6 @@ namespace ERP.Data
         
         public virtual DbSet<CounterpartyPartner> CounterpartyPartners { get; set; }
         public virtual DbSet<PartnerContactPeople> PartnerContactPeople { get; set; }
-        public virtual DbSet<TypeProduct> TypeProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -55,22 +53,6 @@ namespace ERP.Data
             // Types
             modelBuilder.Entity<Position>()
                 .Property(s => s.Name)
-                .HasConversion<string>();
-            
-            modelBuilder.Entity<StorageUnit>()
-                .Property(s => s.MeasuredValueType)
-                .HasConversion<string>();
-            
-            modelBuilder.Entity<Product>()
-                .Property(s => s.Vat)
-                .HasConversion<string>();
-            
-            modelBuilder.Entity<ProductKind>()
-                .Property(s => s.Vat)
-                .HasConversion<string>();
-            
-            modelBuilder.Entity<ProductKind>()
-                .Property(s => s.ProductType)
                 .HasConversion<string>();
             
             modelBuilder.Entity<BusinessProposal>()
@@ -156,24 +138,6 @@ namespace ERP.Data
                 .WithMany(c => c.PartnerContactPeople)
                 .HasForeignKey(c => c.ContactPersonId);
             
-            // One-to-Many // Product has one StorageUnit
-            modelBuilder.Entity<Product>()
-                .HasOne<StorageUnit>(c => c.StorageUnit)
-                .WithMany(d => d.Products)
-                .HasForeignKey(e => e.StorageUnitId);
-            
-            // Many-to-Many // Product has many ProductKinds
-            modelBuilder.Entity<TypeProduct>()
-                .HasKey(c => new { c.ProductId, c.ProductKindId });
-            modelBuilder.Entity<TypeProduct>()
-                .HasOne<ProductKind>(c => c.ProductKind)
-                .WithMany(c => c.TypeProducts)
-                .HasForeignKey(c => c.ProductKindId);
-            modelBuilder.Entity<TypeProduct>()
-                .HasOne<Product>(c => c.Product)
-                .WithMany(c => c.TypeProducts)
-                .HasForeignKey(c => c.ProductId);
-
             // One-to-Many // BusinessProposal has many BusinessProposalProducts
             modelBuilder.Entity<BusinessProposalProduct>()
                 .HasOne<BusinessProposal>(c => c.BusinessProposal)
@@ -234,8 +198,14 @@ namespace ERP.Data
                 .WithMany(d => d.BusinessProposalProducts)
                 .HasForeignKey(e => e.ProductId);
             
+            // One-to-Many // BusinessProposal has one Partner
+            modelBuilder.Entity<BusinessProposal>()
+                .HasOne<Partner>(c => c.Partner)
+                .WithMany(d => d.BusinessProposals)
+                .HasForeignKey(e => e.PartnerId);
+            
+            // modelBuilder.Seed();
+            
         }
-        
-        
     }
 }

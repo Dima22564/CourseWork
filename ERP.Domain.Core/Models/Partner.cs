@@ -16,13 +16,14 @@ namespace ERP.Domain.Core.Models
         public long PartnerId { get; set; }
         public string Relationship { get; set; }
         public string Prefix { get; set; }
-        public DateTime CreatedAt { get; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public virtual ICollection<CounterpartyPartner> CounterpartyPartners { get; set; }
-        public virtual ICollection<PartnerContactPeople> PartnerContactPeople { get; set; }
-        public virtual ICollection<AgreementWithCustomer> AgreementsWithCustomers { get; set; }
+        public virtual ICollection<CounterpartyPartner> CounterpartyPartners { get; set; } = new List<CounterpartyPartner>();
+        public virtual ICollection<PartnerContactPeople> PartnerContactPeople { get; set; } = new List<PartnerContactPeople>();
+        public virtual ICollection<AgreementWithCustomer> AgreementsWithCustomers { get; set; } = new List<AgreementWithCustomer>();
+        public virtual ICollection<BusinessProposal> BusinessProposals { get; set; } = new List<BusinessProposal>();
         [CanBeNull] public virtual Employee ResponsiblePerson { get; set; }
-        public int ResponsiblePersonId { get; set; }
+        public int? ResponsiblePersonId { get; set; }
 
         public Partner()
         {

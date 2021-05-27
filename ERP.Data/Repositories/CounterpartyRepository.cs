@@ -22,7 +22,6 @@ namespace ERP.Data.Repositories
                 .Include(c => c.BankAccounts)
                 .ThenInclude(c => c.Currency)
                 .AsEnumerable();
-            
         }
     }
 }

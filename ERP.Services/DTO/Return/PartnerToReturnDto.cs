@@ -7,7 +7,7 @@ namespace ERP.Services.DTO.Return
     {
         public long PartnerId { get; set; }
         public CompanyNameToReturn Name { get; set; }
-        public string Relation { get; set; }
+        public string Relationship { get; set; }
         public string Prefix { get; set; }
         public DateTime CreatedAt { get; set; }
         public CompanyContactsToReturn Contacts { get; set; }

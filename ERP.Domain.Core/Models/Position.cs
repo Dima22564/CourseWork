@@ -21,25 +21,9 @@ namespace ERP.Domain.Core.Models
 
         public virtual ICollection<Person> People { get; set; }
 
-        private Position(string name, [CanBeNull] string description, DateTime includeAt)
-        {
-            Name = name;
-            Description = description;
-            IncludeAt = includeAt;
-        }
-
         public Position()
         {
         }
 
-        public static Position Create(
-            string name, 
-            [CanBeNull] string description, 
-            DateTime includeAt) 
-            => new Position(
-                name,
-                description,
-                includeAt);
-        
     }
 }

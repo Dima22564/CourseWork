@@ -37,6 +37,11 @@ namespace ERP.Data.Repositories
         {
             return await _dbSet.FindAsync(id);
         }
+        
+        public TEntity Get(object id)
+        {
+            return _dbSet.Find(id);
+        }
 
         public bool IsExists(Func<TEntity, bool> predicate)
         {
@@ -48,10 +53,20 @@ namespace ERP.Data.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
 
         public ICollection<TEntity> Get(Func<TEntity, bool> predicate)
         {
             return _dbSet.AsNoTracking().AsEnumerable().Where(predicate).ToList();
+        }
+        
+        public ICollection<TEntity> GetTracked(Func<TEntity, bool> predicate)
+        {
+            return _dbSet.AsEnumerable().Where(predicate).ToList();
         }
         
         private IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includeProperties)

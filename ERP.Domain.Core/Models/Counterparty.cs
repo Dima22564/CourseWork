@@ -18,9 +18,9 @@ namespace ERP.Domain.Core.Models
         public string Crtr { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
-        public virtual ICollection<AlcoholicLicense> AlcoholicLicenses { get; set; }
-        public virtual ICollection<CounterpartyPartner> CounterpartyPartners { get; set; }
-        public virtual ICollection<BankAccount> BankAccounts { get; set; }
+        public virtual ICollection<AlcoholicLicense> AlcoholicLicenses { get; set; } = new List<AlcoholicLicense>();
+        public virtual ICollection<CounterpartyPartner> CounterpartyPartners { get; set; } = new List<CounterpartyPartner>();
+        public virtual ICollection<BankAccount> BankAccounts { get; set; } = new List<BankAccount>();
 
 
         public void AddAlcoholicLicense(AlcoholicLicense license)
