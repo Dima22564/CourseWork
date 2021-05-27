@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using ERP.Data.Abstractions;
+using ERP.Domain.Core.Enums;
 using ERP.Domain.Core.Models;
 using ERP.Services.DTO.Creation;
 using ERP.Services.Services.Abstractions;
@@ -26,7 +27,7 @@ namespace ERP.Services.Services
         
         public ICollection<AgreementWithCustomer> GetAll()
         {
-            return _agreementRepo.GetWithInclude(x => x.Partner);
+            return _agreementRepo.GetWithInclude(x=> x.Currency, x => x.Partner);
         }
 
         public async Task<AgreementWithCustomer> Create(AgreementCreateDto dto)
@@ -49,6 +50,7 @@ namespace ERP.Services.Services
 
             var bp = _mapper.Map<AgreementCreateDto, AgreementWithCustomer>(dto);
             bp.GenerateNumber(partner.Prefix, number);
+            bp.Status = DocumentStatuses.NotApproved;
             
             await _agreementRepo.AddAsync(bp);
             await _agreementRepo.SaveChangesAsync();

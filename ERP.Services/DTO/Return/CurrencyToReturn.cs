@@ -2,9 +2,9 @@
 {
     public class CurrencyToReturn
     {
-        public int numericCode { get; set; }
-        public string name { get; set; }
-        public string characterCode { get; set; }
-        public float exchangeRate { get; set; }
+        public int NumericCode { get; set; }
+        public string Name { get; set; }
+        public string CharacterCode { get; set; }
+        public float ExchangeRate { get; set; }
     }
 }

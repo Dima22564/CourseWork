@@ -58,7 +58,8 @@ namespace ERP.WebApi.Helpers
             
             CreateMap<AgreementWithCustomer, AgreementToReturnDto>()
                 .ForMember(dest => dest.Company, src => src.MapFrom(s => s.Partner))
-                .ForMember(dest => dest.Status, src => src.MapFrom(s => s.Status.ToString()));
+                .ForMember(dest => dest.Status, src => src.MapFrom(s => s.Status.ToString()))
+                .ForMember(dest => dest.Currency, src => src.MapFrom(s => s.Currency)); ;
             CreateMap<AgreementCreateDto, AgreementWithCustomer>();
 
         }

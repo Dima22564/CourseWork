@@ -11,5 +11,6 @@ namespace ERP.Services.DTO.Return
         public DateTime ValidTo { get; set; }
         public string Status { get; set; }
         public PartnerToReturnDto Company { get; set; }
+        public CurrencyToReturn Currency { get; set; }
     }
 }
