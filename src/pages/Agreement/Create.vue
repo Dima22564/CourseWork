@@ -38,6 +38,17 @@
             label="Компания"
           />
 
+          <q-select
+            :disable="loading"
+            :option-label="item => item.name"
+            option-value="numericCode"
+            dense
+            filled
+            v-model="form.currency"
+            :options="currencies"
+            label="Валюта"
+          />
+
           <q-input
             filled
             v-model="form.from"
@@ -93,7 +104,8 @@ export default {
         from: null,
         validFrom: null,
         validTo: null,
-        partner: null
+        partner: null,
+        currency: null
       },
       columns: [
         { name: 'productId', align: 'left', label: '#', field: 'productId', sortable: true },
@@ -109,6 +121,7 @@ export default {
   async mounted () {
     try {
       await this.$store.dispatch('partner/fetchAll')
+      await this.$store.dispatch('currency/fetchAll')
     } catch (e) {
       this.$q.notify({
         type: 'negative',
@@ -119,6 +132,9 @@ export default {
   computed: {
     partners () {
       return this.$store.state.partner.partners
+    },
+    currencies () {
+      return this.$store.state.currency.currencies
     },
     bpProducts () {
       return this.$store.state.businessProposal.businessProposalProducts
@@ -131,6 +147,14 @@ export default {
     changeProductProp (val, productId, propName) {
       this.$store.commit('businessProposal/update', { val, productId, propName })
     },
+    reset () {
+      this.form.number = null
+      this.form.from = null
+      this.form.validFrom = null
+      this.form.validTo = null
+      this.form.partner = null
+      this.form.currency = null
+    },
     async onSubmit () {
       this.loading = true
       const bp = {
@@ -138,9 +162,9 @@ export default {
         From: this.form.from,
         ValidFrom: this.form.validFrom,
         ValidTo: this.form.validTo,
-        PartnerId: this.form.partner.partnerId
+        PartnerId: this.form.partner.partnerId,
+        CurrencyCode: this.form.currency.numericCode
       }
-
       try {
         const result = await this.$store.dispatch('agreement/create', bp)
         if (result.status === 201) {

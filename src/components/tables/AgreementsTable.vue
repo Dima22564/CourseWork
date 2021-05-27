@@ -36,7 +36,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="agreementId" :props="props">
-            {{ props.row.agreementId }}
+            {{ props.row.number }}
           </q-td>
 
           <q-td key="name" :props="props">
@@ -48,15 +48,15 @@
           </q-td>
 
           <q-td key="validFrom" :props="props">
-            {{ props.row.validFrom }}
+            {{ dateFormat(props.row.validFrom) }}
           </q-td>
 
           <q-td key="validTo" :props="props">
-            {{ props.row.validTo }}
+            {{ dateFormat(props.row.validTo) }}
           </q-td>
 
           <q-td key="currency" :props="props">
-            {{ props.row.currency }}
+            {{ props.row.currency.name }}
           </q-td>
 
           <q-td key="status" :props="props">
@@ -124,6 +124,7 @@
 
 <script>
 import icons from 'src/mixins/icons'
+import moment from 'moment'
 
 export default {
   name: 'AgreementsTable',
@@ -142,6 +143,9 @@ export default {
     deny (agreementId) {
     },
     cancel (agreementId) {
+    },
+    dateFormat (date) {
+      return moment(date).format('ll')
     }
   },
   data: () => {
